@@ -7,6 +7,6 @@ class CPUSecret
     4.times do
       @secret_code.push([1, 2, 3, 4, 5, 6].sample)
     end
-    p @secret_code
+    # p @secret_code
   end
 end

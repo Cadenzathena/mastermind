@@ -4,7 +4,7 @@ require_relative "lib/game_round"
 require_relative "lib/tty_prompt_wrapper"
 require_relative "lib/cpu_secret"
 require_relative "lib/player_input"
-
+# debugger
 prompt = TTYPromptWrapper.new
 
 puts "PLAY MASTERMIND"
@@ -19,8 +19,10 @@ def play_codebreaker_mode
   player_input = PlayerInput.new
 
   game_round.print_current_round
+  game_round.print_round_start_instruction
   cpu_secret.generate_secret_code
-  player_input.get_player_input
+  player_input.request_input
+  puts "ah"
 end
 
 play_codebreaker_mode if selected_mode == "Play as codebreaker"
