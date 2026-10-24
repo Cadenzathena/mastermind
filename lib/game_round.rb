@@ -1,3 +1,4 @@
+# determines the rounds of mastermind
 class GameRound
   def initialize
     @current_round = 12
