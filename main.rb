@@ -2,9 +2,10 @@ require "colorize"
 require "tty-prompt"
 require_relative "lib/game_round"
 require_relative "lib/tty_prompt_wrapper"
-require_relative "lib/cpu_secret"
+require_relative "lib/secret"
 require_relative "lib/player_input"
 require_relative "lib/game_verdict"
+require_relative "lib/cpu_guess"
 
 prompt = TTYPromptWrapper.new
 game_round = GameRound.new
@@ -40,9 +41,12 @@ def play_codebreaker_mode(game_round:, cpu_secret:, player_input:, game_verdict:
 end
 
 def play_codemaker_mode(player_secret:, player_input:, game_round:)
+  cpu_guess = CPUGuess.new
   game_round.print_codemaker_start_info
   player_secret.input_secret_code(player_input.request_input)
-  p player_secret.secret_code
+
+  game_round.print_current_round
+  cpu_guess.think(current_round: game_round.current_round)
 end
 
 if selected_mode == "Play as codebreaker"
