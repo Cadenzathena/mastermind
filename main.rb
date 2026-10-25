@@ -23,17 +23,15 @@ selected_mode = prompt.select_mode(
 
 def play_codebreaker_mode(game_round:, cpu_secret:, player_input:, game_verdict:)
   cpu_secret.generate_secret_code
-
   while game_round.current_round.positive?
     game_round.print_current_round
     game_round.print_codebreaker_start_info
     player_input.request_input
 
-    case game_verdict.judge(secret_code: cpu_secret.secret_code, input: player_input.input)
-    when "correct"
+    if game_verdict.win?(secret_code: cpu_secret.secret_code, input: player_input.input)
       puts "You got the secret code! You win!"
       return
-    when "wrong"
+    else
       game_verdict.create_hints(player_input.input)
       game_verdict.print_hints
       game_round.next_round
@@ -47,19 +45,23 @@ def play_codemaker_mode(player_secret:, player_input:, game_round:, game_verdict
   cpu_input.generate_candidates
   game_round.print_codemaker_start_info
   player_secret.create_secret_code(code: player_input.request_input)
+  while game_round.current_round.positive?
+    game_round.print_current_round
+    puts "The computer is picking a code..."
+    sleep 2
+    cpu_input.guess_secret_code
+    cpu_input.print_guess
 
-  game_round.print_current_round
-  puts "The computer is picking a code..."
-  sleep 2
-  cpu_input.guess_secret_code
-
-  case game_verdict.judge(secret_code: player_secret.secret_code, input: cpu_input.guess)
-  when "correct"
-    puts "The computer got the secret code! The computer wins!"
-  when "wrong"
-    game_verdict.create_hints(cpu_input.guess)
-    game_verdict.print_hints
-    cpu_input.reassess_candidates(round_hints: game_verdict.hints)
+    if game_verdict.win?(secret_code: player_secret.secret_code, input: cpu_input.guess)
+      puts "The computer got the secret code! The computer wins!"
+      return
+    else
+      game_verdict.create_hints(cpu_input.guess)
+      game_verdict.print_hints
+      cpu_input.reassess_candidates(round_hints: game_verdict.hints)
+      game_round.next_round
+      next
+    end
   end
 end
 

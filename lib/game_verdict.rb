@@ -2,13 +2,13 @@
 class GameVerdict
   attr_reader :hints
 
-  def judge(secret_code:, input:)
+  def win?(secret_code:, input:)
     if secret_code == input
-      "correct"
+      true
     else
       true_digits(secret_code, input)
       true_positions(secret_code, input)
-      "wrong"
+      false
     end
   end
 

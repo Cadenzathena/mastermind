@@ -1,3 +1,4 @@
+# Generates possible codes and guesses for the cpu
 class CPUInput
   attr_reader :candidate_codes, :guess
 
@@ -29,7 +30,10 @@ class CPUInput
 
   def guess_secret_code
     @guess = @candidate_codes.sample
-    p @guess
+  end
+
+  def print_guess
+    puts @guess.join.to_i
   end
 
   def reassess_candidates(round_hints:)
@@ -38,6 +42,5 @@ class CPUInput
       @verdict.create_hints(@guess)
       code if @verdict.hints == round_hints
     end
-    p @candidate_codes
   end
 end
