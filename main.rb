@@ -27,12 +27,12 @@ def play_codebreaker_mode(game_round:, cpu_secret:, player_input:, game_verdict:
     game_round.print_current_round
     game_round.print_codebreaker_start_info
     player_input.request_input
-    game_verdict.judge(secret_code: cpu_secret.secret_code, input: player_input.input)
 
-    if game_verdict.final_verdict == "correct"
+    case game_verdict.judge(secret_code: cpu_secret.secret_code, input: player_input.input)
+    when "correct"
       puts "You got the secret code! You win!"
       return
-    else
+    when "wrong"
       game_round.next_round
       next
     end
@@ -48,7 +48,12 @@ def play_codemaker_mode(player_secret:, player_input:, game_round:, game_verdict
   game_round.print_current_round
   puts "The computer is picking a code..."
   sleep 2
-  game_verdict.judge(secret_code: player_secret.secret_code, input: cpu_guess.guess)
+  case game_verdict.judge(secret_code: player_secret.secret_code, input: cpu_guess.guess)
+  when "correct"
+    puts "The computer got the secret code! The computer wins!"
+  when "wrong"
+    puts "aw shucks!"
+  end
 end
 
 if selected_mode == "Play as codebreaker"

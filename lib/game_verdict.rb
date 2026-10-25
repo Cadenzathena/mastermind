@@ -1,15 +1,15 @@
 # determines if the game has been won by the codebreaker
 class GameVerdict
-  attr_reader :final_verdict
+  attr_reader
 
   def judge(secret_code:, input:)
     if secret_code == input
-      @final_verdict = "correct"
+      "correct"
     else
       true_digits(secret_code, input)
       true_positions(secret_code, input)
       print_hints(hints(input))
-      @final_verdict = "wrong"
+      "wrong"
     end
   end
 
