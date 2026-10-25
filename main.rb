@@ -40,13 +40,15 @@ def play_codebreaker_mode(game_round:, cpu_secret:, player_input:, game_verdict:
   puts "You couldn't guess the secret code! The computer wins!\nThe secret code was #{cpu_secret.secret_code.join}"
 end
 
-def play_codemaker_mode(player_secret:, player_input:, game_round:)
+def play_codemaker_mode(player_secret:, player_input:, game_round:, game_verdict:)
   cpu_guess = CPUGuess.new
   game_round.print_codemaker_start_info
   player_secret.input_secret_code(player_input.request_input)
 
   game_round.print_current_round
-  cpu_guess.think(current_round: game_round.current_round)
+  puts "The computer is picking a code..."
+  sleep 2
+  game_verdict.judge(secret_code: player_secret.secret_code, input: cpu_guess.guess)
 end
 
 if selected_mode == "Play as codebreaker"
@@ -60,6 +62,7 @@ else
   play_codemaker_mode(
     player_secret: player_secret,
     player_input: player_input,
-    game_round: game_round
+    game_round: game_round,
+    game_verdict: game_verdict
   )
 end

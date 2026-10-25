@@ -27,8 +27,7 @@ class CPUGuess
 
   public
 
-  def think(current_round:)
-    @current_guess = @candidate_codes.sample
-    p @current_guess
+  def guess
+    p(@candidate_codes.sample)
   end
 end
