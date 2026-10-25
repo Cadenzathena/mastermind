@@ -38,7 +38,7 @@ class CPUInput
 
   def reassess_candidates(round_hints:)
     @candidate_codes = @candidate_codes.filter_map do |code|
-      @verdict.judge(secret_code: code, input: @guess)
+      @verdict.win?(secret_code: code, input: @guess)
       @verdict.create_hints(@guess)
       code if @verdict.hints == round_hints
     end
