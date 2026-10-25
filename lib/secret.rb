@@ -12,7 +12,7 @@ class Secret
     end
   end
 
-  def input_secret_code(player_input)
-    @secret_code = player_input
+  def create_secret_code(code:)
+    @secret_code = code
   end
 end

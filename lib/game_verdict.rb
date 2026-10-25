@@ -1,6 +1,6 @@
 # determines if the game has been won by the codebreaker
 class GameVerdict
-  attr_reader
+  attr_reader :hints
 
   def judge(secret_code:, input:)
     if secret_code == input
@@ -8,7 +8,6 @@ class GameVerdict
     else
       true_digits(secret_code, input)
       true_positions(secret_code, input)
-      print_hints(hints(input))
       "wrong"
     end
   end
@@ -34,18 +33,18 @@ class GameVerdict
 
   public
 
-  def hints(input)
-    {
+  def create_hints(input)
+    @hints = {
       red: @true_positions_size,
       white: @true_digits_size - @true_positions_size,
       grey: input.length - @true_digits_size
     }
   end
 
-  def print_hints(hints)
-    puts "#{hints[:red]} digit(s) are correct and in the right position".colorize(background: :red)
-    puts "#{hints[:white]} digit(s) are correct but in the wrong position".colorize(color: :black, background: :white)
-    puts "#{hints[:grey]} digit(s) are incorrect".colorize(background: :grey)
+  def print_hints
+    puts "#{@hints[:red]} digit(s) are correct and in the right position".colorize(background: :red)
+    puts "#{@hints[:white]} digit(s) are correct but in the wrong position".colorize(color: :black, background: :white)
+    puts "#{@hints[:grey]} digit(s) are incorrect".colorize(background: :grey)
     puts "\n"
   end
 end
