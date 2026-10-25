@@ -3,7 +3,6 @@ class PlayerInput
   attr_reader :input
 
   def request_input
-    print "Input your guess: ".colorize(:yellow)
     @raw_input = gets.chomp
     input_validation
   end
@@ -17,6 +16,7 @@ class PlayerInput
       request_input
     else
       @input = @raw_input.chars.map(&:to_i)
+      @input
     end
   end
 end

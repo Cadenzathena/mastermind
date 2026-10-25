@@ -8,7 +8,8 @@ require_relative "lib/game_verdict"
 
 prompt = TTYPromptWrapper.new
 game_round = GameRound.new
-cpu_secret = CPUSecret.new
+cpu_secret = Secret.new
+player_secret = Secret.new
 player_input = PlayerInput.new
 game_verdict = GameVerdict.new
 
@@ -23,7 +24,7 @@ def play_codebreaker_mode(game_round:, cpu_secret:, player_input:, game_verdict:
 
   while game_round.current_round.positive?
     game_round.print_current_round
-    game_round.print_round_start_instruction
+    game_round.print_codebreaker_start_info
     player_input.request_input
     game_verdict.judge(secret_code: cpu_secret.secret_code, input: player_input.input)
 
@@ -38,11 +39,23 @@ def play_codebreaker_mode(game_round:, cpu_secret:, player_input:, game_verdict:
   puts "You couldn't guess the secret code! The computer wins!\nThe secret code was #{cpu_secret.secret_code.join}"
 end
 
+def play_codemaker_mode(player_secret:, player_input:, game_round:)
+  game_round.print_codemaker_start_info
+  player_secret.input_secret_code(player_input.request_input)
+  p player_secret.secret_code
+end
+
 if selected_mode == "Play as codebreaker"
   play_codebreaker_mode(
     game_round: game_round,
     cpu_secret: cpu_secret,
     player_input: player_input,
     game_verdict: game_verdict
+  )
+else
+  play_codemaker_mode(
+    player_secret: player_secret,
+    player_input: player_input,
+    game_round: game_round
   )
 end
